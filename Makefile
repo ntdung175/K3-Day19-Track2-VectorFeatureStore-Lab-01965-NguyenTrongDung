@@ -49,9 +49,9 @@ notebooks: ## [both] Execute ALL notebooks headless (what the grader runs)
 	@$(JUPYTEXT) --to notebook --update notebooks/[0-9]*.py >/dev/null 2>&1 || true
 	@for nb in notebooks/[0-9]*.ipynb; do \
 		printf '%-42s' "$$nb"; \
-		PATH="$(PWD)/$(VENV)/bin:$$PATH" $(VENV)/bin/jupyter nbconvert --to notebook \
+		$(VENV)/bin/jupyter nbconvert --to notebook \
 			--execute --inplace "$$nb" --ExecutePreprocessor.timeout=900 \
-			>/dev/null 2>&1 && echo PASS || echo FAIL; \
+			&& echo PASS || echo FAIL; \
 	done
 
 clean-lite: ## [lite] Wipe venv + data + Feast registry
